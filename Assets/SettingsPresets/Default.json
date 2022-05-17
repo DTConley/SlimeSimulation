@@ -1,0 +1,25 @@
+{
+    "m_presetName": "Default",
+    "m_resolutionType": 0,
+    "m_width": 1080,
+    "m_height": 1080,
+    "m_decayFactor": 0.10000000149011612,
+    "m_diffuseFactor": 1.0,
+    "m_diffuseKernelSize": 1,
+    "m_maxAgents": 5000000,
+    "m_numAgents": 0,
+    "m_numSteps": 1,
+    "m_agentSpeed": 50.0,
+    "m_agentRotationSpeed": 10.0,
+    "m_agentColor": {
+        "r": 0.0,
+        "g": 0.4716981053352356,
+        "b": 0.2940315008163452,
+        "a": 1.0
+    },
+    "m_sensorDistance": 9,
+    "m_sensorAngle": 0.7139999866485596,
+    "m_sensorWidth": 1,
+    "m_createRadius": 10.0,
+    "m_numAgentsPerStep": 100
+}

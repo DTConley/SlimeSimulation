@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1dad5644e8741d44abe79bab68f00f23
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_simulationSettings: {fileID: 11400000, guid: 0314d05cb8beaa540a0cf54aa80d7c11, type: 2}
+  - m_simulationController: {instanceID: 0}
+  - m_mapController: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

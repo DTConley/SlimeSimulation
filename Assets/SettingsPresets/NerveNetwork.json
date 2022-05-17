@@ -1,0 +1,25 @@
+{
+    "m_presetName": "NerveNetwork",
+    "m_resolutionType": 0,
+    "m_width": 2000,
+    "m_height": 2000,
+    "m_decayFactor": 0.10000000149011612,
+    "m_diffuseFactor": 1.0,
+    "m_diffuseKernelSize": 1,
+    "m_maxAgents": 100000,
+    "m_numAgents": 0,
+    "m_numSteps": 10,
+    "m_agentSpeed": 50.0,
+    "m_agentRotationSpeed": 3.0,
+    "m_agentColor": {
+        "r": 0.47058823704719546,
+        "g": 0.0,
+        "b": 0.32353681325912478,
+        "a": 1.0
+    },
+    "m_sensorDistance": 9,
+    "m_sensorAngle": 0.7853981852531433,
+    "m_sensorWidth": 5,
+    "m_createRadius": 100.0,
+    "m_numAgentsPerStep": 1000
+}

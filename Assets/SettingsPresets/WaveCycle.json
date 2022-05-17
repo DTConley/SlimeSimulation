@@ -1,0 +1,25 @@
+{
+    "m_presetName": "WaveCycle",
+    "m_resolutionType": 0,
+    "m_width": 1000,
+    "m_height": 1000,
+    "m_decayFactor": 0.10000000149011612,
+    "m_diffuseFactor": 1.0,
+    "m_diffuseKernelSize": 1,
+    "m_maxAgents": 1000000,
+    "m_numAgents": 205000,
+    "m_numSteps": 10,
+    "m_agentSpeed": 50.0,
+    "m_agentRotationSpeed": 28.889999389648439,
+    "m_agentColor": {
+        "r": 0.0,
+        "g": 0.47058823704719546,
+        "b": 0.4462119936943054,
+        "a": 1.0
+    },
+    "m_sensorDistance": 9,
+    "m_sensorAngle": 0.0,
+    "m_sensorWidth": 3,
+    "m_createRadius": 1.0,
+    "m_numAgentsPerStep": 500
+}

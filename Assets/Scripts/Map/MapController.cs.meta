@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 41ebcac2b6c677b489279f0e02c603b3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_mainCamera: {instanceID: 0}
+  - m_simulationSettings: {fileID: 11400000, guid: 0314d05cb8beaa540a0cf54aa80d7c11, type: 2}
+  - m_clearShader: {fileID: 7200000, guid: 0718f7c37985f0543b1156c7c2fff4fc, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

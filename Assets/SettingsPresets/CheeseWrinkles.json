@@ -1,0 +1,25 @@
+{
+    "m_presetName": "CheeseWrinkles",
+    "m_resolutionType": 0,
+    "m_width": 1000,
+    "m_height": 1000,
+    "m_decayFactor": 0.10000000149011612,
+    "m_diffuseFactor": 1.0,
+    "m_diffuseKernelSize": 1,
+    "m_maxAgents": 1000000,
+    "m_numAgents": 0,
+    "m_numSteps": 10,
+    "m_agentSpeed": 50.0,
+    "m_agentRotationSpeed": 90.0,
+    "m_agentColor": {
+        "r": 0.47058823704719546,
+        "g": 0.42836543917655947,
+        "b": 0.0,
+        "a": 1.0
+    },
+    "m_sensorDistance": -5,
+    "m_sensorAngle": 0.06300000101327896,
+    "m_sensorWidth": 3,
+    "m_createRadius": 300.0,
+    "m_numAgentsPerStep": 500
+}

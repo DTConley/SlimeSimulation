@@ -1,0 +1,25 @@
+{
+    "m_presetName": "SlimeWeb",
+    "m_resolutionType": 0,
+    "m_width": 1080,
+    "m_height": 1080,
+    "m_decayFactor": 0.10000000149011612,
+    "m_diffuseFactor": 5.0,
+    "m_diffuseKernelSize": 2,
+    "m_maxAgents": 5000000,
+    "m_numAgents": 227000,
+    "m_numSteps": 10,
+    "m_agentSpeed": 50.0,
+    "m_agentRotationSpeed": 10.0,
+    "m_agentColor": {
+        "r": 0.0,
+        "g": 0.4716981053352356,
+        "b": 0.2940315008163452,
+        "a": 1.0
+    },
+    "m_sensorDistance": 6,
+    "m_sensorAngle": 0.9390000104904175,
+    "m_sensorWidth": 4,
+    "m_createRadius": 100.0,
+    "m_numAgentsPerStep": 100
+}

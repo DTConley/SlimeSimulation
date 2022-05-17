@@ -1,0 +1,25 @@
+{
+    "m_presetName": "NeonLights",
+    "m_resolutionType": 0,
+    "m_width": 1080,
+    "m_height": 1080,
+    "m_decayFactor": 0.10000000149011612,
+    "m_diffuseFactor": 5.0,
+    "m_diffuseKernelSize": 1,
+    "m_maxAgents": 5000000,
+    "m_numAgents": 102000,
+    "m_numSteps": 10,
+    "m_agentSpeed": 50.0,
+    "m_agentRotationSpeed": 50.0,
+    "m_agentColor": {
+        "r": 0.6542981266975403,
+        "g": 0.5424528121948242,
+        "b": 1.0,
+        "a": 1.0
+    },
+    "m_sensorDistance": 0,
+    "m_sensorAngle": 0.9390000104904175,
+    "m_sensorWidth": 4,
+    "m_createRadius": 50.0,
+    "m_numAgentsPerStep": 100
+}

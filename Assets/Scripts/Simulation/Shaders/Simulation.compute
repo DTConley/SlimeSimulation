@@ -1,0 +1,209 @@
+#pragma kernel SlimeUpdate
+
+struct Agent
+{
+    float2 position;
+    float angle;
+};
+
+RWStructuredBuffer<Agent> agents;
+RWTexture2D<float4> simulationMap;
+uint mapWidth;
+uint mapHeight;
+uint numAgents;
+float agentMovementSpeed;
+float agentRotationSpeed;
+float4 agentColor;
+int sensorDistance;
+float sensorAngle;
+int sensorWidth;
+float time;
+float deltaTime;
+bool runSimulation;
+
+// From: jcgt.org/published/0009/03/02/
+uint RandomHash(uint seed)
+{
+    uint state = seed * 747796405u + 2891336453u;
+    uint word = ((state >> ((state >> 28u) + 4u)) ^ state) * 277803737u;
+    return (word >> 22u) ^ word;
+}
+
+float ScaleTo01(uint value)
+{
+    return value / 4294967295.0;
+}
+
+float Sense(int2 location, float2 forwardDirection)
+{
+    float2 sensorPlaneY = forwardDirection;
+
+    float2 sensorPlaneX;
+    sensorPlaneX.x = sensorPlaneY.y;
+    sensorPlaneX.y = -sensorPlaneY.x;
+
+    float senseTotal = 0.0;
+    for (int i = 0; i < sensorWidth; ++i)
+    {
+        for (int j = 0; j < sensorWidth; ++j)
+        {
+            int2 senseLocation = location + round(i * sensorPlaneX + j * sensorPlaneY);
+
+            if (senseLocation.x >= 0 && senseLocation.x < int(mapWidth) &&
+                senseLocation.y >= 0 && senseLocation.y < int(mapHeight))
+            {
+                senseTotal += (simulationMap[senseLocation].x + simulationMap[senseLocation].y + simulationMap[senseLocation].z) / 3.0;
+            }
+        }
+    }
+
+    return senseTotal / (sensorWidth * sensorWidth);
+}
+
+[numthreads(128,1,1)]
+void SlimeUpdate(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= numAgents)
+    {
+        return;
+    }
+
+    if (!runSimulation)
+    {
+        simulationMap[int2(agents[id.x].position)] = agentColor;
+        return;
+    }
+
+    uint randomValue = RandomHash(id.x + RandomHash(id.y + time * 100000));
+
+    float2 senseDirection;
+    senseDirection.x = cos(agents[id.x].angle);
+    senseDirection.y = sin(agents[id.x].angle);
+    float2 perpDirection;
+    perpDirection.x = senseDirection.y;
+    perpDirection.y = -senseDirection.x;
+
+    float2 senseOffset;
+    senseOffset.x = sensorDistance * cos(agents[id.x].angle + sensorAngle);
+    senseOffset.y = sensorDistance * sin(agents[id.x].angle + sensorAngle);
+    float senseLeft = Sense(agents[id.x].position + senseOffset - sensorWidth * perpDirection, senseDirection);
+
+    senseOffset.x = sensorDistance * senseDirection.x;
+    senseOffset.y = sensorDistance * senseDirection.y;
+    float senseForward = Sense(agents[id.x].position + senseOffset - (float(sensorWidth) / 2.0) * perpDirection, senseDirection);
+   
+    senseOffset.x = sensorDistance * cos(agents[id.x].angle - sensorAngle);
+    senseOffset.y = sensorDistance * sin(agents[id.x].angle - sensorAngle);
+    float senseRight = Sense(agents[id.x].position + senseOffset, senseDirection);
+
+    bool turnRight = senseForward < senseRight;
+    bool turnLeft = senseForward < senseLeft;
+    if (turnLeft && turnRight)
+    {
+        if (ScaleTo01(randomValue) > 0.5)
+        {
+            turnRight = false;
+        }
+        else
+        {
+            turnLeft = false;
+        }
+    }
+    
+    if (turnRight)
+    {
+        agents[id.x].angle -= agentRotationSpeed * deltaTime;
+    }
+    else if (turnLeft)
+    {
+        agents[id.x].angle += agentRotationSpeed * deltaTime;
+    }
+
+    randomValue = RandomHash(randomValue);
+
+    agents[id.x].position.x += agentMovementSpeed * cos(agents[id.x].angle) * deltaTime;
+    agents[id.x].position.y += agentMovementSpeed * sin(agents[id.x].angle) * deltaTime;
+
+    if (agents[id.x].position.x < 0.0 || agents[id.x].position.x >= float(mapWidth) ||
+        agents[id.x].position.y < 0.0 || agents[id.x].position.y >= float(mapHeight))
+    {
+        agents[id.x].position.x = min(mapWidth - 1, max(0.0, agents[id.x].position.x));
+        agents[id.x].position.y = min(mapHeight - 1, max(0.0, agents[id.x].position.y));
+        agents[id.x].angle = ScaleTo01(randomValue) * 2.0 * 3.1415926;
+    }
+
+    simulationMap[int2(agents[id.x].position)] = agentColor;
+}
+
+#pragma kernel MapUpdate
+
+RWTexture2D<float4> diffuseMap;
+float decayFactor;
+float diffuseFactor;
+int diffuseKernelSize;
+
+[numthreads(8, 8, 1)]
+void MapUpdate (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= mapWidth || id.y >= mapHeight)
+    {
+        return;
+    }
+
+    if (!runSimulation)
+    {
+        diffuseMap[id.xy] = simulationMap[id.xy];
+        return;
+    }
+
+    float4 pixelSum = 0.0;
+    for (int hOffset = -diffuseKernelSize; hOffset <= diffuseKernelSize; ++hOffset)
+    {
+        for (int vOffset = -diffuseKernelSize; vOffset <= diffuseKernelSize; ++vOffset)
+        {
+            int2 offsetPixel = id.xy;
+            offsetPixel.x = min(mapWidth - 1, max(0.0, offsetPixel.x + hOffset));
+            offsetPixel.y = min(mapHeight - 1, max(0.0, offsetPixel.y + vOffset));
+
+            pixelSum += simulationMap[offsetPixel];
+        }
+    }
+
+    pixelSum = pixelSum / ((2.0 * diffuseKernelSize + 1) * (2.0 * diffuseKernelSize + 1));
+
+    diffuseMap[id.xy] = max(0.0, lerp(simulationMap[id.xy], pixelSum, diffuseFactor * deltaTime) - decayFactor * deltaTime);
+}
+
+#pragma kernel CreateAgent
+
+RWStructuredBuffer<Agent> newAgents;
+float createRadius;
+float2 createPosition;
+float createAngle;
+bool ignoreCreateAngle;
+uint numCreateAgents;
+
+[numthreads(128, 1, 1)]
+void CreateAgent(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= numCreateAgents)
+    {
+        return;
+    }
+
+    uint randomValue = RandomHash(id.x + RandomHash(id.y + time * 100000));
+    float angle = createAngle;
+    if (ignoreCreateAngle)
+    {
+        angle = 2.0 * 3.1415926 * ScaleTo01(randomValue);
+        randomValue = RandomHash(randomValue);
+    }
+
+    float circleAngle = 2.0 * 3.1415926 * ScaleTo01(randomValue);
+    randomValue = RandomHash(randomValue);
+    float circleRadius = createRadius * sqrt(ScaleTo01(randomValue));
+
+    agents[numAgents + id.x].position.x = createPosition.x + circleRadius * cos(circleAngle);
+    agents[numAgents + id.x].position.y = createPosition.y + circleRadius * sin(circleAngle);
+    agents[numAgents + id.x].angle = angle;
+}
