@@ -108,6 +108,7 @@ public class SimulationController : MonoBehaviour
 
     void InitializeSimulatuion()
     {
+        m_simulationSettings.m_numAgents = 0;
         m_simulationSettings.m_runSimulation = false;
 
         m_mapController.ResetMap();

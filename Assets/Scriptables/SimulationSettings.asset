@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b16db809a122d04d981995136ff329e, type: 3}
   m_Name: SimulationSettings
   m_EditorClassIdentifier: 
-  m_presetName: Default
+  m_presetName: WaveCycle
   m_resolutionType: 0
-  m_width: 1080
-  m_height: 1080
+  m_width: 1000
+  m_height: 1000
   m_decayFactor: 0.1
   m_diffuseFactor: 1
   m_diffuseKernelSize: 1
-  m_maxAgents: 5000000
-  m_numAgents: 0
-  m_numSteps: 1
+  m_maxAgents: 1000000
+  m_numAgents: 312500
+  m_numSteps: 5
   m_agentSpeed: 50
-  m_agentRotationSpeed: 10
-  m_agentColor: {r: 0, g: 0.4716981, b: 0.2940315, a: 1}
+  m_agentRotationSpeed: 28.89
+  m_agentColor: {r: 0, g: 0.47058824, b: 0.446212, a: 1}
   m_sensorDistance: 9
-  m_sensorAngle: 0.714
-  m_sensorWidth: 1
-  m_createRadius: 10
-  m_numAgentsPerStep: 100
+  m_sensorAngle: 0
+  m_sensorWidth: 3
+  m_createRadius: 1
+  m_numAgentsPerStep: 500
